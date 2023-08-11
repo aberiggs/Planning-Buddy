@@ -21,7 +21,7 @@ struct PlanningView: View {
 
     var body: some View {
         VStack {
-            Text("Welcome to planning!")
+            Text("Planning List").font(.largeTitle).bold()
             
             ForEach(viewModel.events) { event in
                 HStack {

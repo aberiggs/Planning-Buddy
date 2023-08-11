@@ -14,10 +14,8 @@ class PlanningViewModel: ObservableObject {
     init() {}
 
     func createPlanningEventItem(newName: String) -> (Void) {
-        
-        let newId = UUID().uuidString
+
         let newEvent = PlanningEventItem(
-            id: newId,
             name: newName
         )
         events.append(newEvent)

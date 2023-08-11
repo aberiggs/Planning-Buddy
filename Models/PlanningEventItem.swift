@@ -8,7 +8,7 @@
 import Foundation
 
 struct PlanningEventItem: Identifiable {
-    let id: String
+    let id: String = UUID().uuidString
     let name: String
     //let date: TimeInterval
 }

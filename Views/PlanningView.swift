@@ -16,60 +16,66 @@ extension String: Identifiable {
 }
 
 struct PlanningView: View {
+    
+    /*
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(entity: PlanningListEvent.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \PlanningListEvent.name, ascending: true)])
+    */
+    
+    // var plannedEvents: FetchedResults<PlanningListEvent>
+    
     @StateObject var viewModel = PlanningViewModel()
     @State private var newEventName = String()
+    
+    func validateEventName() -> (Bool) {
+        return !newEventName.isEmpty
+    }
 
     var body: some View {
-        VStack {
-            Text("Planning List").font(.largeTitle).bold()
-            
-            ForEach(viewModel.events) { event in
-                HStack {
-                    Text(event.name)
-                    Button {
-                        viewModel.removePlanningEventItem(event: event)
-                    } label: {
+        NavigationStack {
+            VStack {
+                Text("Planning List Name").font(.largeTitle).bold()
+                Text("Date")
+                    .font(.callout)
+                
+                /*
+                List {
+                    ForEach(plannedEvents, id: \.self) { event in
+                        HStack {
+                            Text(event.name ?? "Failure")
+                            Button {
+                                //viewModel.removePlanningEventItem(event: event)
+                            } label: {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .foregroundColor(Color.pink)
+                                        .frame(width: 30, height: 30)
+                                    Text("X")
+                                        .foregroundColor(Color.white)
+                                    
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                }*/
+                
+                HStack(alignment: .bottom) {
+                    NavigationLink(destination: CreateAndEditEventView()) {
+                        /*.environment(\.managedObjectContext, self.moc))*/
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(Color.pink)
-                                .frame(width: 30, height: 30)
-                            Text("X")
-                                .foregroundColor(Color.white)
+                                .foregroundColor(Color.blue)
                             
-                        }
+                            Text("Create New Event")
+                                .foregroundColor(Color.white)
+                                .bold()
+                        }.frame(width: 200)
                     }
-                }
+                }.frame(height: 50)
                 
             }
-            
-            Form {
-                TextField(
-                    "New Event Name",
-                    text: $newEventName
-                )
-                .textInputAutocapitalization(.sentences)
-                .disableAutocorrection(false)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                
-                
-                Button {
-                    viewModel.createPlanningEventItem(newName: newEventName)
-                } label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .foregroundColor(Color.blue)
-                        
-                        Text("Create Event")
-                            .foregroundColor(Color.white)
-                            .bold()
-                    }
-                }
-            }
-            
-
-            
-        
-        
         }
     }
 }

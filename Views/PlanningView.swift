@@ -6,14 +6,7 @@
 //
 
 import SwiftUI
-
-
-extension String: Identifiable {
-    public typealias ID = Int
-    public var id: Int {
-        return hash
-    }
-}
+import SwiftData
 
 struct PlanningView: View {
     
@@ -26,6 +19,7 @@ struct PlanningView: View {
     
     @StateObject var viewModel = PlanningViewModel()
     @State private var newEventName = String()
+    @Query private var events: [PlanningEventItem]
     
     func validateEventName() -> (Bool) {
         return !newEventName.isEmpty
@@ -61,9 +55,9 @@ struct PlanningView: View {
                     
                 }*/
                 
+                
                 HStack(alignment: .bottom) {
                     NavigationLink(destination: CreateAndEditEventView()) {
-                        /*.environment(\.managedObjectContext, self.moc))*/
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
                                 .foregroundColor(Color.blue)
@@ -76,6 +70,7 @@ struct PlanningView: View {
                 }.frame(height: 50)
                 
             }
+            
         }
     }
 }
@@ -83,6 +78,7 @@ struct PlanningView: View {
 struct PlanningView_Previews: PreviewProvider {
     static var previews: some View {
         PlanningView()
+            .modelContainer(for: PlanningEventItem.self)
     }
 }
 

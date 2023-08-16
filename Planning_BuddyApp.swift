@@ -8,10 +8,13 @@
 import SwiftUI
 
 @main
+@available(iOS 17.0, *) 
 struct Planning_BuddyApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: PlanningEventItem.self)
+      
     }
 }

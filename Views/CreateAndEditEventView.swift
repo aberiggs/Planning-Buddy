@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CreateAndEditEventView: View {
     @Environment(\.managedObjectContext) var moc
     @State private var eventName: String = String()
+    @Bindable var event: PlanningEventItem = PlanningEventItem(name: "")
+    
     var body: some View {
         VStack {  
             Spacer()
@@ -21,15 +24,6 @@ struct CreateAndEditEventView: View {
             HStack(alignment: .bottom) {
                 Button {
                     
-                    
-                    do {
-                        let event = PlanningListEvent(context: moc)
-                        //event.name = self.eventName
-                            try moc.save()
-                        } catch {
-                            print("Error: \(error.localizedDescription)")
-                        }
-                     
                 } label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
@@ -50,5 +44,6 @@ struct CreateAndEditEventView: View {
 struct CreateAndEditEventView_Previews: PreviewProvider {
     static var previews: some View {
         CreateAndEditEventView()
+            .modelContainer(for: PlanningEventItem.self)
     }
 }

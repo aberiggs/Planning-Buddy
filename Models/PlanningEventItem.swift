@@ -6,9 +6,32 @@
 //
 
 import Foundation
+import SwiftData
 
-struct PlanningEventItem: Identifiable {
-    let id: String = UUID().uuidString
-    let name: String
-    //let date: TimeInterval
+@Model class PlanningEventItem {
+    
+    @Attribute(.unique) var id: UUID
+    @Attribute var name: String
+    
+    init(name: String) {
+        self.id = UUID()
+        self.name = name
+    }
+    
+    
 }
+
+/*
+@available(iOS 17.0, *)
+extension PlanningEventItem: Hashable {
+    static func == (lhs: PlanningEventItem, rhs: PlanningEventItem) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+*/
+
+

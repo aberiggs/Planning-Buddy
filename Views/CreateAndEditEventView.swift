@@ -9,9 +9,14 @@ import SwiftUI
 import SwiftData
 
 struct CreateAndEditEventView: View {
-    @Environment(\.managedObjectContext) var moc
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     @State private var eventName: String = String()
     @Bindable var event: PlanningEventItem = PlanningEventItem(name: "")
+    
+    func validEventName() -> (Bool) {
+        return !eventName.isEmpty
+    }
     
     var body: some View {
         VStack {  
@@ -23,6 +28,11 @@ struct CreateAndEditEventView: View {
             
             HStack(alignment: .bottom) {
                 Button {
+                    if (validEventName()) {
+                        event.name = eventName
+                        modelContext.insert(event)
+                        dismiss()
+                    }
                     
                 } label: {
                     ZStack {
@@ -41,9 +51,8 @@ struct CreateAndEditEventView: View {
     }
 }
 
-struct CreateAndEditEventView_Previews: PreviewProvider {
-    static var previews: some View {
-        CreateAndEditEventView()
-            .modelContainer(for: PlanningEventItem.self)
-    }
+#Preview {
+    CreateAndEditEventView()
+        .modelContainer(PreviewContainer)
+    
 }

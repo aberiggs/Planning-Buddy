@@ -9,20 +9,17 @@ import SwiftUI
 import SwiftData
 
 struct PlanningView: View {
-    
-    /*
-    @Environment(\.managedObjectContext) var moc
-    @FetchRequest(entity: PlanningListEvent.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \PlanningListEvent.name, ascending: true)])
-    */
-    
-    // var plannedEvents: FetchedResults<PlanningListEvent>
-    
+    @Environment(\.modelContext) private var modelContext
     @StateObject var viewModel = PlanningViewModel()
     @State private var newEventName = String()
     @Query private var events: [PlanningEventItem]
     
-    func validateEventName() -> (Bool) {
-        return !newEventName.isEmpty
+    func emptyFunc() -> (Void) {
+        print("Test")
+    }
+    
+    func deleteEvent(eventToDelete: PlanningEventItem) -> (Void) {
+        modelContext.delete(eventToDelete)
     }
 
     var body: some View {
@@ -32,29 +29,23 @@ struct PlanningView: View {
                 Text("Date")
                     .font(.callout)
                 
-                /*
+                    
                 List {
-                    ForEach(plannedEvents, id: \.self) { event in
+                    ForEach(events) { event in
                         HStack {
-                            Text(event.name ?? "Failure")
-                            Button {
-                                //viewModel.removePlanningEventItem(event: event)
-                            } label: {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .foregroundColor(Color.pink)
-                                        .frame(width: 30, height: 30)
-                                    Text("X")
-                                        .foregroundColor(Color.white)
-                                    
+                            Text(event.name)
+                                .swipeActions(edge: .trailing) {
+                                    Button (action: { deleteEvent(eventToDelete: event) }) {
+                                        Label("Delete", systemImage: "minus.circle.fill")
+                                    }.tint(.red)
                                 }
-                            }
                         }
                         
                     }
                     
-                }*/
+                }.listStyle(.plain)
                 
+                Spacer()
                 
                 HStack(alignment: .bottom) {
                     NavigationLink(destination: CreateAndEditEventView()) {
@@ -69,16 +60,14 @@ struct PlanningView: View {
                     }
                 }.frame(height: 50)
                 
+                
             }
             
         }
     }
 }
 
-struct PlanningView_Previews: PreviewProvider {
-    static var previews: some View {
-        PlanningView()
-            .modelContainer(for: PlanningEventItem.self)
-    }
+#Preview {
+    PlanningView().modelContainer(for: PlanningEventItem.self)
 }
 

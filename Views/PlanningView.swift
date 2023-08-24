@@ -12,11 +12,7 @@ struct PlanningView: View {
     @Environment(\.modelContext) private var modelContext
     @StateObject var viewModel = PlanningViewModel()
     @State private var newEventName = String()
-    @Query private var events: [PlanningEventItem]
-    
-    func emptyFunc() -> (Void) {
-        print("Test")
-    }
+    @Query (sort: \PlanningEventItem.date) private var events: [PlanningEventItem]
     
     func deleteEvent(eventToDelete: PlanningEventItem) -> (Void) {
         modelContext.delete(eventToDelete)
@@ -32,13 +28,21 @@ struct PlanningView: View {
                     
                 List {
                     ForEach(events) { event in
-                        HStack {
-                            Text(event.name)
-                                .swipeActions(edge: .trailing) {
-                                    Button (action: { deleteEvent(eventToDelete: event) }) {
-                                        Label("Delete", systemImage: "minus.circle.fill")
-                                    }.tint(.red)
-                                }
+                        VStack {
+                            HStack{
+                                Text(event.name)
+                                Spacer()
+                            }
+                            
+                            HStack {
+                                Text(event.date.formatted(.dateTime.hour().minute()))
+                                Spacer()
+                                
+                            }
+                        }.swipeActions(edge: .trailing) {
+                            Button (action: { deleteEvent(eventToDelete: event) }) {
+                                Label("Delete", systemImage: "minus.circle.fill")
+                            }.tint(.red)
                         }
                         
                     }

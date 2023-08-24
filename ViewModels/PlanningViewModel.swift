@@ -15,10 +15,12 @@ class PlanningViewModel: ObservableObject {
 
     func createPlanningEventItem(newName: String) -> (Void) {
 
+        /*
         let newEvent = PlanningEventItem(
             name: newName
         )
         events.append(newEvent)
+        */
     }
     
     func removePlanningEventItem(event: PlanningEventItem) -> (Void) {

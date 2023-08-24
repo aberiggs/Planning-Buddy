@@ -15,8 +15,8 @@ let PreviewContainer: ModelContainer = {
             for: PlanningEventItem.self, ModelConfiguration(inMemory: true)
         )
         
-        var eventOne = PlanningEventItem(name: "Event one")
-        var eventTwo = PlanningEventItem(name: "Event two")
+        var eventOne = PlanningEventItem(name: "Event one", date: Date.now)
+        var eventTwo = PlanningEventItem(name: "Event two", date: Date.now)
         
         container.mainContext.insert(eventOne)
         container.mainContext.insert(eventTwo)

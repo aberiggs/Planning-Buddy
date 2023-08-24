@@ -12,10 +12,12 @@ import SwiftData
     
     @Attribute(.unique) var id: UUID
     @Attribute var name: String
+    @Attribute var date: Date
     
-    init(name: String) {
+    init(name: String, date: Date) {
         self.id = UUID()
         self.name = name
+        self.date = date
     }
     
     
